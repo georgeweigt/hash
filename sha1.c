@@ -65,9 +65,9 @@ main()
 		sprintf(s + 2 * i, "%02x", hash[i]);
 
 	if (strcmp(s, "da39a3ee5e6b4b0d3255bfef95601890afd80709") == 0)
-		printf("ok\n");
+		puts("pass");
 	else
-		printf("not ok\n");
+		puts("fail");
 
 	sha1((uint8_t *) "The quick brown fox jumps over the lazy dog", 43, hash);
 
@@ -75,9 +75,9 @@ main()
 		sprintf(s + 2 * i, "%02x", hash[i]);
 
 	if (strcmp(s, "2fd4e1c67a2d28fced849ee1bb76e7391b93eb12") == 0)
-		printf("ok\n");
+		puts("pass");
 	else
-		printf("not ok\n");
+		puts("fail");
 
 	hmac_sha1((uint8_t *) "", 0, (uint8_t *) "", 0, hash);
 
@@ -85,9 +85,9 @@ main()
 		sprintf(s + 2 * i, "%02x", hash[i]);
 
 	if (strcmp(s, "fbdb1d1b18aa6c08324b7d64b71fb76370690e1d") == 0)
-		printf("ok\n");
+		puts("pass");
 	else
-		printf("not ok\n");
+		puts("fail");
 
 	hmac_sha1((uint8_t *) "key", 3, (uint8_t *) "The quick brown fox jumps over the lazy dog", 43, hash);
 
@@ -95,9 +95,9 @@ main()
 		sprintf(s + 2 * i, "%02x", hash[i]);
 
 	if (strcmp(s, "de7c9b85b8b78aa6bc8a7a36f70a90701c9db4d9") == 0)
-		printf("ok\n");
+		puts("pass");
 	else
-		printf("not ok\n");
+		puts("fail");
 
 	return 0;
 }

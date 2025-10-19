@@ -65,9 +65,9 @@ main()
 		sprintf(s + 2 * i, "%02x", hash[i]);
 
 	if (strcmp(s, "d41d8cd98f00b204e9800998ecf8427e") == 0)
-		printf("ok\n");
+		puts("pass");
 	else
-		printf("not ok\n");
+		puts("fail");
 
 	md5((uint8_t *) "message digest", 14, hash);
 
@@ -75,9 +75,9 @@ main()
 		sprintf(s + 2 * i, "%02x", hash[i]);
 
 	if (strcmp(s, "f96b697d7cb7938d525a2f31aaf161d0") == 0)
-		printf("ok\n");
+		puts("pass");
 	else
-		printf("not ok\n");
+		puts("fail");
 
 	hmac_md5((uint8_t *) "", 0, (uint8_t *) "", 0, hash);
 
@@ -85,9 +85,9 @@ main()
 		sprintf(s + 2 * i, "%02x", hash[i]);
 
 	if (strcmp(s, "74e6f7298a9c2d168935f58c001bad88") == 0)
-		printf("ok\n");
+		puts("pass");
 	else
-		printf("not ok\n");
+		puts("fail");
 
 	hmac_md5((uint8_t *) "key", 3, (uint8_t *) "The quick brown fox jumps over the lazy dog", 43, hash);
 
@@ -95,9 +95,9 @@ main()
 		sprintf(s + 2 * i, "%02x", ((uint8_t *) hash)[i]);
 
 	if (strcmp(s, "80070713463e7749b90c2dc24911e275") == 0)
-		printf("ok\n");
+		puts("pass");
 	else
-		printf("not ok\n");
+		puts("fail");
 
 	return 0;
 }

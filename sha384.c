@@ -65,9 +65,9 @@ main()
 		sprintf(s + 2 * i, "%02x", hash[i]);
 
 	if (strcmp(s, "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b") == 0)
-		printf("ok\n");
+		puts("pass");
 	else
-		printf("not ok\n");
+		puts("fail");
 
 	sha384((uint8_t *) "The quick brown fox jumps over the lazy dog", 43, hash);
 
@@ -75,11 +75,11 @@ main()
 		sprintf(s + 2 * i, "%02x", hash[i]);
 
 	if (strcmp(s, "ca737f1014a48f4c0b6dd43cb177b0afd9e5169367544c494011e3317dbf9a509cb1e5dc1e85a941bbee3d7f2afbc9b1") == 0)
-		printf("ok\n");
+		puts("pass");
 	else
-		printf("not ok\n");
+		puts("fail");
 
-	// RFC 4231 Test Case 1
+	puts("RFC 4231 Test Case 1");
 
 	hmac_sha384((uint8_t *) "\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b", 20, (uint8_t *) "Hi There", 8, hash);
 
@@ -87,11 +87,11 @@ main()
 		sprintf(s + 2 * i, "%02x", hash[i]);
 
 	if (strcmp(s, "afd03944d84895626b0825f4ab46907f15f9dadbe4101ec682aa034c7cebc59cfaea9ea9076ede7f4af152e8b2fa9cb6") == 0)
-		printf("ok\n");
+		puts("pass");
 	else
-		printf("not ok\n");
+		puts("fail");
 
-	// RFC 4231 Test Case 2
+	puts("RFC 4231 Test Case 2");
 
 	hmac_sha384((uint8_t *) "Jefe", 4, (uint8_t *) "what do ya want for nothing?", 28, hash);
 
@@ -99,11 +99,9 @@ main()
 		sprintf(s + 2 * i, "%02x", hash[i]);
 
 	if (strcmp(s, "af45d2e376484031617f78d2b58a6b1b9c7ef464f5a01b47e42ec3736322445e8e2240ca5e69e2c78b3239ecfab21649") == 0)
-		printf("ok\n");
+		puts("pass");
 	else
-		printf("not ok\n");
-
-	return 0;
+		puts("fail");
 }
 
 void

@@ -65,9 +65,9 @@ main()
 		sprintf(s + 2 * i, "%02x", hash[i]);
 
 	if (strcmp(s, "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855") == 0)
-		printf("ok\n");
+		puts("pass");
 	else
-		printf("not ok\n");
+		puts("fail");
 
 	sha256((uint8_t *) "The quick brown fox jumps over the lazy dog", 43, hash);
 
@@ -75,31 +75,33 @@ main()
 		sprintf(s + 2 * i, "%02x", hash[i]);
 
 	if (strcmp(s, "d7a8fbb307d7809469ca9abcb0082e4f8d5651e46d3cdb762d02d0bf37c9e592") == 0)
-		printf("ok\n");
+		puts("pass");
 	else
-		printf("not ok\n");
+		puts("fail");
 
-	hmac_sha256((uint8_t *) "", 0, (uint8_t *) "", 0, hash);
+	puts("RFC 4231 Test Case 1");
+
+	hmac_sha256((uint8_t *) "\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b", 20, (uint8_t *) "Hi There", 8, hash);
 
 	for (i = 0; i < 32; i++)
 		sprintf(s + 2 * i, "%02x", hash[i]);
 
-	if (strcmp(s, "b613679a0814d9ec772f95d778c35fc5ff1697c493715653c6c712144292c5ad") == 0)
-		printf("ok\n");
+	if (strcmp(s, "b0344c61d8db38535ca8afceaf0bf12b881dc200c9833da726e9376c2e32cff7") == 0)
+		puts("pass");
 	else
-		printf("not ok\n");
+		puts("fail");
 
-	hmac_sha256((uint8_t *) "key", 3, (uint8_t *) "The quick brown fox jumps over the lazy dog", 43, hash);
+	puts("RFC 4231 Test Case 2");
+
+	hmac_sha256((uint8_t *) "Jefe", 4, (uint8_t *) "what do ya want for nothing?", 28, hash);
 
 	for (i = 0; i < 32; i++)
 		sprintf(s + 2 * i, "%02x", hash[i]);
 
-	if (strcmp(s, "f7bc83f430538424b13298e6aa6fb143ef4d59a14946175997479dbc2d1a3cd8") == 0)
-		printf("ok\n");
+	if (strcmp(s, "5bdcc146bf60754e6a042426089575c75a003f089d2739839dec58b964ec3843") == 0)
+		puts("pass");
 	else
-		printf("not ok\n");
-
-	return 0;
+		puts("fail");
 }
 
 void

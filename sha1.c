@@ -98,8 +98,6 @@ main()
 		puts("pass");
 	else
 		puts("fail");
-
-	return 0;
 }
 
 void

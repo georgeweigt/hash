@@ -4,13 +4,6 @@ SHA-224 produces a 224-bit hash.
 
      224 bits = 28 bytes = 7 uint32_t
 
-The main function of this program runs a self test.
-
-To compile and run:
-
-     gcc sha224.c
-     ./a.out
-
 References
 
 1. FIPS PUB 180-4, "Secure Hash Standard"
@@ -43,66 +36,9 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-#include <stdio.h>
-#include <string.h>
 #include <stdint.h>
-
-void hmac_sha224(uint8_t *key, int keylen, uint8_t *buf, int len, uint8_t *out);
-void sha224(uint8_t *buf, int len, uint8_t *out);
-void sha224_with_key(uint8_t *key, uint8_t *buf, int len, uint8_t *out);
-void sha224_hash_block(uint8_t *buf, uint32_t *hash);
-
-int
-main()
-{
-	int i;
-	char s[57];
-	uint8_t hash[28];
-
-	sha224((uint8_t *) "", 0, hash);
-
-	for (i = 0; i < 28; i++)
-		sprintf(s + 2 * i, "%02x", hash[i]);
-
-	if (strcmp(s, "d14a028c2a3a2bc9476102bb288234c415a2b01f828ea62ac5b3e42f") == 0)
-		puts("pass");
-	else
-		puts("fail");
-
-	sha224((uint8_t *) "The quick brown fox jumps over the lazy dog", 43, hash);
-
-	for (i = 0; i < 28; i++)
-		sprintf(s + 2 * i, "%02x", hash[i]);
-
-	if (strcmp(s, "730e109bd7a8a32b1cb9d9a09aa2325d2430587ddbc0c38bad911525") == 0)
-		puts("pass");
-	else
-		puts("fail");
-
-	puts("RFC 4231 Test Case 1");
-
-	hmac_sha224((uint8_t *) "\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b", 20, (uint8_t *) "Hi There", 8, hash);
-
-	for (i = 0; i < 28; i++)
-		sprintf(s + 2 * i, "%02x", hash[i]);
-
-	if (strcmp(s, "896fb1128abbdf196832107cd49df33f47b4b1169912ba4f53684b22") == 0)
-		puts("pass");
-	else
-		puts("fail");
-
-	puts("RFC 4231 Test Case 2");
-
-	hmac_sha224((uint8_t *) "Jefe", 4, (uint8_t *) "what do ya want for nothing?", 28, hash);
-
-	for (i = 0; i < 28; i++)
-		sprintf(s + 2 * i, "%02x", hash[i]);
-
-	if (strcmp(s, "a30e01098bc6dbbf45690f3a7e9e6d0f8bbea2a39e6148008fd05e44") == 0)
-		puts("pass");
-	else
-		puts("fail");
-}
+#include <string.h>
+#include "hash.h"
 
 void
 hmac_sha224(uint8_t *key, int keylen, uint8_t *buf, int len, uint8_t *out)

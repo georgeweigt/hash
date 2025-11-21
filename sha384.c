@@ -4,13 +4,6 @@ SHA-384 produces a 384-bit hash.
 
      384 bits = 48 bytes = 6 uint64_t
 
-The main function of this program runs a self test.
-
-To compile and run:
-
-     gcc sha384.c
-     ./a.out
-
 References
 
 1. FIPS PUB 180-4, "Secure Hash Standard"
@@ -43,66 +36,9 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-#include <stdio.h>
-#include <string.h>
 #include <stdint.h>
-
-void hmac_sha384(uint8_t *key, int keylen, uint8_t *buf, int len, uint8_t *out);
-void sha384(uint8_t *buf, int len, uint8_t *out);
-void sha384_with_key(uint8_t *key, uint8_t *buf, int len, uint8_t *out);
-void sha384_hash_block(uint8_t *buf, uint64_t *hash);
-
-int
-main()
-{
-	int i;
-	char s[97];
-	uint8_t hash[48];
-
-	sha384((uint8_t *) "", 0, hash);
-
-	for (i = 0; i < 48; i++)
-		sprintf(s + 2 * i, "%02x", hash[i]);
-
-	if (strcmp(s, "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b") == 0)
-		puts("pass");
-	else
-		puts("fail");
-
-	sha384((uint8_t *) "The quick brown fox jumps over the lazy dog", 43, hash);
-
-	for (i = 0; i < 48; i++)
-		sprintf(s + 2 * i, "%02x", hash[i]);
-
-	if (strcmp(s, "ca737f1014a48f4c0b6dd43cb177b0afd9e5169367544c494011e3317dbf9a509cb1e5dc1e85a941bbee3d7f2afbc9b1") == 0)
-		puts("pass");
-	else
-		puts("fail");
-
-	puts("RFC 4231 Test Case 1");
-
-	hmac_sha384((uint8_t *) "\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b", 20, (uint8_t *) "Hi There", 8, hash);
-
-	for (i = 0; i < 48; i++)
-		sprintf(s + 2 * i, "%02x", hash[i]);
-
-	if (strcmp(s, "afd03944d84895626b0825f4ab46907f15f9dadbe4101ec682aa034c7cebc59cfaea9ea9076ede7f4af152e8b2fa9cb6") == 0)
-		puts("pass");
-	else
-		puts("fail");
-
-	puts("RFC 4231 Test Case 2");
-
-	hmac_sha384((uint8_t *) "Jefe", 4, (uint8_t *) "what do ya want for nothing?", 28, hash);
-
-	for (i = 0; i < 48; i++)
-		sprintf(s + 2 * i, "%02x", hash[i]);
-
-	if (strcmp(s, "af45d2e376484031617f78d2b58a6b1b9c7ef464f5a01b47e42ec3736322445e8e2240ca5e69e2c78b3239ecfab21649") == 0)
-		puts("pass");
-	else
-		puts("fail");
-}
+#include <string.h>
+#include "hash.h"
 
 void
 hmac_sha384(uint8_t *key, int keylen, uint8_t *buf, int len, uint8_t *out)

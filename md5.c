@@ -4,13 +4,6 @@ MD5 produces a 128-bit hash.
 
      128 bits = 16 bytes = 4 uint32_t
 
-The main function of this program runs a self test.
-
-To compile and run:
-
-     gcc md5.c
-     ./a.out
-
 References
 
 1. RFC 1321 The MD5 Message-Digest Algorithm
@@ -43,62 +36,9 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-#include <stdio.h>
-#include <string.h>
 #include <stdint.h>
-
-void hmac_md5(uint8_t *key, int keylen, uint8_t *buf, int len, uint8_t *out);
-void md5(uint8_t *buf, int len, uint8_t *out);
-void md5_with_key(uint8_t *key, uint8_t *buf, int len, uint8_t *out);
-void md5_hash_block(uint8_t *buf, uint32_t *hash);
-
-int
-main()
-{
-	int i;
-	char s[33];
-	uint8_t hash[16];
-
-	md5((uint8_t *) "", 0, hash);
-
-	for (i = 0; i < 16; i++)
-		sprintf(s + 2 * i, "%02x", hash[i]);
-
-	if (strcmp(s, "d41d8cd98f00b204e9800998ecf8427e") == 0)
-		puts("pass");
-	else
-		puts("fail");
-
-	md5((uint8_t *) "message digest", 14, hash);
-
-	for (i = 0; i < 16; i++)
-		sprintf(s + 2 * i, "%02x", hash[i]);
-
-	if (strcmp(s, "f96b697d7cb7938d525a2f31aaf161d0") == 0)
-		puts("pass");
-	else
-		puts("fail");
-
-	hmac_md5((uint8_t *) "", 0, (uint8_t *) "", 0, hash);
-
-	for (i = 0; i < 16; i++)
-		sprintf(s + 2 * i, "%02x", hash[i]);
-
-	if (strcmp(s, "74e6f7298a9c2d168935f58c001bad88") == 0)
-		puts("pass");
-	else
-		puts("fail");
-
-	hmac_md5((uint8_t *) "key", 3, (uint8_t *) "The quick brown fox jumps over the lazy dog", 43, hash);
-
-	for (i = 0; i < 16; i++)
-		sprintf(s + 2 * i, "%02x", ((uint8_t *) hash)[i]);
-
-	if (strcmp(s, "80070713463e7749b90c2dc24911e275") == 0)
-		puts("pass");
-	else
-		puts("fail");
-}
+#include <string.h>
+#include "hash.h"
 
 void
 hmac_md5(uint8_t *key, int keylen, uint8_t *buf, int len, uint8_t *out)

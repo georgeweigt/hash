@@ -4,13 +4,6 @@ SHA-256 produces a 256-bit hash.
 
      256 bits = 32 bytes = 8 uint32_t
 
-The main function of this program runs a self test.
-
-To compile and run:
-
-     gcc sha256.c
-     ./a.out
-
 References
 
 1. FIPS PUB 180-4, "Secure Hash Standard"
@@ -43,66 +36,9 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-#include <stdio.h>
-#include <string.h>
 #include <stdint.h>
-
-void hmac_sha256(uint8_t *key, int keylen, uint8_t *buf, int len, uint8_t *out);
-void sha256(uint8_t *buf, int len, uint8_t *out);
-void sha256_with_key(uint8_t *key, uint8_t *buf, int len, uint8_t *out);
-void sha256_hash_block(uint8_t *buf, uint32_t *hash);
-
-int
-main()
-{
-	int i;
-	char s[65];
-	uint8_t hash[32];
-
-	sha256((uint8_t *) "", 0, hash);
-
-	for (i = 0; i < 32; i++)
-		sprintf(s + 2 * i, "%02x", hash[i]);
-
-	if (strcmp(s, "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855") == 0)
-		puts("pass");
-	else
-		puts("fail");
-
-	sha256((uint8_t *) "The quick brown fox jumps over the lazy dog", 43, hash);
-
-	for (i = 0; i < 32; i++)
-		sprintf(s + 2 * i, "%02x", hash[i]);
-
-	if (strcmp(s, "d7a8fbb307d7809469ca9abcb0082e4f8d5651e46d3cdb762d02d0bf37c9e592") == 0)
-		puts("pass");
-	else
-		puts("fail");
-
-	puts("RFC 4231 Test Case 1");
-
-	hmac_sha256((uint8_t *) "\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b", 20, (uint8_t *) "Hi There", 8, hash);
-
-	for (i = 0; i < 32; i++)
-		sprintf(s + 2 * i, "%02x", hash[i]);
-
-	if (strcmp(s, "b0344c61d8db38535ca8afceaf0bf12b881dc200c9833da726e9376c2e32cff7") == 0)
-		puts("pass");
-	else
-		puts("fail");
-
-	puts("RFC 4231 Test Case 2");
-
-	hmac_sha256((uint8_t *) "Jefe", 4, (uint8_t *) "what do ya want for nothing?", 28, hash);
-
-	for (i = 0; i < 32; i++)
-		sprintf(s + 2 * i, "%02x", hash[i]);
-
-	if (strcmp(s, "5bdcc146bf60754e6a042426089575c75a003f089d2739839dec58b964ec3843") == 0)
-		puts("pass");
-	else
-		puts("fail");
-}
+#include <string.h>
+#include "hash.h"
 
 void
 hmac_sha256(uint8_t *key, int keylen, uint8_t *buf, int len, uint8_t *out)

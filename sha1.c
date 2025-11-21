@@ -4,13 +4,6 @@ SHA-1 produces a 160-bit hash.
 
      160 bits = 20 bytes = 5 uint32_t
 
-The main function of this program runs a self test.
-
-To compile and run:
-
-     gcc sha1.c
-     ./a.out
-
 References
 
 1. FIPS PUB 180-4, "Secure Hash Standard"
@@ -43,62 +36,9 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-#include <stdio.h>
-#include <string.h>
 #include <stdint.h>
-
-void hmac_sha1(uint8_t *key, int keylen, uint8_t *buf, int len, uint8_t *out);
-void sha1(uint8_t *buf, int len, uint8_t *out);
-void sha1_with_key(uint8_t *key, uint8_t *buf, int len, uint8_t *out);
-void sha1_hash_block(uint8_t *buf, uint32_t *hash);
-
-int
-main()
-{
-	int i;
-	char s[41];
-	uint8_t hash[20];
-
-	sha1((uint8_t *) "", 0, hash);
-
-	for (i = 0; i < 20; i++)
-		sprintf(s + 2 * i, "%02x", hash[i]);
-
-	if (strcmp(s, "da39a3ee5e6b4b0d3255bfef95601890afd80709") == 0)
-		puts("pass");
-	else
-		puts("fail");
-
-	sha1((uint8_t *) "The quick brown fox jumps over the lazy dog", 43, hash);
-
-	for (i = 0; i < 20; i++)
-		sprintf(s + 2 * i, "%02x", hash[i]);
-
-	if (strcmp(s, "2fd4e1c67a2d28fced849ee1bb76e7391b93eb12") == 0)
-		puts("pass");
-	else
-		puts("fail");
-
-	hmac_sha1((uint8_t *) "", 0, (uint8_t *) "", 0, hash);
-
-	for (i = 0; i < 20; i++)
-		sprintf(s + 2 * i, "%02x", hash[i]);
-
-	if (strcmp(s, "fbdb1d1b18aa6c08324b7d64b71fb76370690e1d") == 0)
-		puts("pass");
-	else
-		puts("fail");
-
-	hmac_sha1((uint8_t *) "key", 3, (uint8_t *) "The quick brown fox jumps over the lazy dog", 43, hash);
-
-	for (i = 0; i < 20; i++)
-		sprintf(s + 2 * i, "%02x", hash[i]);
-
-	if (strcmp(s, "de7c9b85b8b78aa6bc8a7a36f70a90701c9db4d9") == 0)
-		puts("pass");
-	else
-		puts("fail");
-}
+#include <string.h>
+#include "hash.h"
 
 void
 hmac_sha1(uint8_t *key, int keylen, uint8_t *buf, int len, uint8_t *out)

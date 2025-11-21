@@ -1,10 +1,4 @@
 .DS_Store
 *.swp
 *.tmp
-a.out
-md5
-sha1
-sha224
-sha256
-sha384
-sha512
+demo

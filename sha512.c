@@ -4,13 +4,6 @@ SHA-512 produces a 512-bit hash.
 
      512 bits = 64 bytes = 8 uint64_t
 
-The main function of this program runs a self test.
-
-To compile and run:
-
-     gcc sha512.c
-     ./a.out
-
 References
 
 1. FIPS PUB 180-4, "Secure Hash Standard"
@@ -43,66 +36,9 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-#include <stdio.h>
-#include <string.h>
 #include <stdint.h>
-
-void hmac_sha512(uint8_t *key, int keylen, uint8_t *buf, int len, uint8_t *out);
-void sha512(uint8_t *buf, int len, uint8_t *out);
-void sha512_with_key(uint8_t *key, uint8_t *buf, int len, uint8_t *out);
-void sha512_hash_block(uint8_t *buf, uint64_t *hash);
-
-int
-main()
-{
-	int i;
-	char s[129];
-	uint8_t hash[64];
-
-	sha512((uint8_t *) "", 0, hash);
-
-	for (i = 0; i < 64; i++)
-		sprintf(s + 2 * i, "%02x", hash[i]);
-
-	if (strcmp(s, "cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e") == 0)
-		puts("pass");
-	else
-		puts("fail");
-
-	sha512((uint8_t *) "abc", 3, hash);
-
-	for (i = 0; i < 64; i++)
-		sprintf(s + 2 * i, "%02x", hash[i]);
-
-	if (strcmp(s, "ddaf35a193617abacc417349ae20413112e6fa4e89a97ea20a9eeee64b55d39a2192992a274fc1a836ba3c23a3feebbd454d4423643ce80e2a9ac94fa54ca49f") == 0)
-		puts("pass");
-	else
-		puts("fail");
-
-	puts("RFC 4231 Test Case 1");
-
-	hmac_sha512((uint8_t *) "\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b", 20, (uint8_t *) "Hi There", 8, hash);
-
-	for (i = 0; i < 64; i++)
-		sprintf(s + 2 * i, "%02x", hash[i]);
-
-	if (strcmp(s, "87aa7cdea5ef619d4ff0b4241a1d6cb02379f4e2ce4ec2787ad0b30545e17cdedaa833b7d6b8a702038b274eaea3f4e4be9d914eeb61f1702e696c203a126854") == 0)
-		puts("pass");
-	else
-		puts("fail");
-
-	puts("RFC 4231 Test Case 2");
-
-	hmac_sha512((uint8_t *) "Jefe", 4, (uint8_t *) "what do ya want for nothing?", 28, hash);
-
-	for (i = 0; i < 64; i++)
-		sprintf(s + 2 * i, "%02x", hash[i]);
-
-	if (strcmp(s, "164b7a7bfcf819e2e395fbe73b56e0a387bd64222e831fd610270cd7ea2505549758bf75c05a994a6d034f65f8f0e6fdcaeab1a34d4a6b4b636e070a38bce737") == 0)
-		puts("pass");
-	else
-		puts("fail");
-}
+#include <string.h>
+#include "hash.h"
 
 void
 hmac_sha512(uint8_t *key, int keylen, uint8_t *buf, int len, uint8_t *out)

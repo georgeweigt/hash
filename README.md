@@ -1,9 +1,6 @@
-Realizations of hash algorithms.
-Each C program runs a self test.
-
-Example
+Run self test
 
 ```
 make
-./md5
+./demo
 ```
